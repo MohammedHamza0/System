@@ -8,8 +8,15 @@ def load_presentation(url):
     try:
         response = requests.get(url)
         response.raise_for_status()  # Check for request errors
-        pptx_file = BytesIO(response.content)
-        return Presentation(pptx_file)
+        if 'application/vnd.openxmlformats-officedocument.presentationml.presentation' in response.headers.get('Content-Type', ''):
+            pptx_file = BytesIO(response.content)
+            return Presentation(pptx_file)
+        else:
+            st.error("The downloaded file is not a valid PPTX file.")
+            # Save the invalid file for inspection
+            with open("invalid_file", "wb") as f:
+                f.write(response.content)
+            st.error("The file has been saved as 'invalid_file' for further inspection.")
     except requests.exceptions.RequestException as e:
         st.error(f"Failed to download presentation: {e}")
     except Exception as e:
@@ -54,7 +61,7 @@ def main():
     if not st.session_state['logged_in']:
         login()
     else:
-        pptx_url = "https://github.com/MohammedHamza0/System/blob/main/System%20Overview%20(1).pptx"
+        pptx_url = "https://github.com/MohammedHamza0/System/raw/main/System%20Overview%20(1).pptx"
         presentation = load_presentation(pptx_url)
         if presentation:
             display_presentation(presentation)
