@@ -3,17 +3,11 @@ from pptx import Presentation
 import requests
 from io import BytesIO
 
-# Load presentation from URL
+# load presentation from URL
 def load_presentation(url):
-    try:
-        response = requests.get(url)
-        response.raise_for_status()  # Check for request errors
-        pptx_file = BytesIO(response.content)
-        return Presentation(pptx_file)
-    except requests.exceptions.RequestException as e:
-        st.error(f"Failed to download presentation: {e}")
-    except Exception as e:
-        st.error(f"Failed to load presentation: {e}")
+    response = requests.get(url)
+    pptx_file = BytesIO(response.content)
+    return Presentation(pptx_file)
 
 # Function to display the presentation
 def display_presentation(presentation):
@@ -21,7 +15,7 @@ def display_presentation(presentation):
         for shape in slide.shapes:
             if hasattr(shape, "text"):
                 st.write(shape.text)
-            if shape.shape_type == 13:  # Checking if shape is a picture
+            if shape.shape_type == 13:  
                 image = shape.image
                 with st.container():
                     st.image(image.blob)
@@ -54,10 +48,9 @@ def main():
     if not st.session_state['logged_in']:
         login()
     else:
-        pptx_url = "https://github.com/MohammedHamza0/System/blob/main/System%20Overview%20(1).pptx"
+        pptx_url = "https://github.com/MohammedHamza0/ML-App/raw/main/System%20Overview%20(1).pptx"
         presentation = load_presentation(pptx_url)
-        if presentation:
-            display_presentation(presentation)
+        display_presentation(presentation)
 
 # Login function
 def login():
