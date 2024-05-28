@@ -54,7 +54,7 @@ def main():
     if not st.session_state['logged_in']:
         login()
     else:
-        pptx_url = "https://github.com/MohammedHamza0/ML-App/raw/main/System%20Overview%20(1).pptx"
+        pptx_url = "https://github.com/MohammedHamza0/System/blob/main/System%20Overview%20(1).pptx"
         presentation = load_presentation(pptx_url)
         if presentation:
             display_presentation(presentation)
