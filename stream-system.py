@@ -54,7 +54,7 @@ st.markdown(
 
 # Login credentials
 USERNAME = "Ghaza"
-PASSWORD = "123"
+PASSWORD = 123
 
 # Create a login function
 def login():
