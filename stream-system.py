@@ -1,5 +1,13 @@
 import streamlit as st
 from pptx import Presentation
+import requests
+from io import BytesIO
+
+# Define the function to download the PPTX file from a URL
+def download_presentation(url):
+    response = requests.get(url)
+    response.raise_for_status()  # Check that the request was successful
+    return BytesIO(response.content)
 
 def load_presentation(file_path):
     return Presentation(file_path)
@@ -68,13 +76,13 @@ def main():
     if not st.session_state['logged_in']:
         login()
     else:
-        file_path = "https://github.com/MohammedHamza0/System/blob/main/System%20Overview%20(1)%20(1).pptx"  # Specify the file path here
+        file_url = "https://github.com/MohammedHamza0/System/raw/main/System%20Overview%20(1)%20(1).pptx"  # Specify the file URL here
+        file_path = download_presentation(file_url)
         presentation = load_presentation(file_path)
         display_presentation(presentation)
 
 if __name__ == "__main__":
     main()
-
 
 
 
