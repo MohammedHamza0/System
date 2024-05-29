@@ -53,7 +53,7 @@ st.markdown(
 )
 
 
-USERNAME = "Ghaza"
+USERNAME = "Gaza"
 PASSWORD = 123  
 
 # Create a login function
